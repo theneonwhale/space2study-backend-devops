@@ -1,0 +1,56 @@
+services:
+  database:
+    image: mongo:latest
+    container_name: database
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - app-network
+
+  backend:
+    # build: ..
+    image: theneonwhale/space2study-backend:latest
+    container_name: backend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - database
+    networks:
+      - app-network
+    environment:
+      - MONGODB_URL
+      - CLIENT_URL
+      - COOKIE_DOMAIN
+      - SERVER_URL
+      - SERVER_PORT
+      - JWT_ACCESS_SECRET
+      - JWT_ACCESS_EXPIRES_IN
+      - JWT_REFRESH_SECRET
+      - JWT_REFRESH_EXPIRES_IN
+      - JWT_RESET_SECRET
+      - JWT_RESET_EXPIRES_IN
+      - JWT_CONFIRM_SECRET
+      - JWT_CONFIRM_EXPIRES_IN
+      - NODE_ENV
+
+  frontend:
+    # build: ../../space2study-frontend-devops
+    image: theneonwhale/space2study-frontend:latest
+    container_name: frontend
+    ports:
+      - "3001:3000"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+    environment:
+      - VITE_API_BASE_PATH
+
+volumes:
+  mongo_data:
+
+networks:
+  app-network:
+    driver: bridge
