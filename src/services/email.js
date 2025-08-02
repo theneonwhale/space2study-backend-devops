@@ -1,3 +1,4 @@
+const path = require('path')
 const EmailTemplates = require('email-templates')
 const { sendMail } = require('~/utils/mailer')
 const { templateList } = require('~/emails')
@@ -11,6 +12,11 @@ const emailTemplates = new EmailTemplates()
 
 const emailService = {
   sendEmail: async (email, subject, language, text = {}) => {
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`[DEV MODE] Skipping email to ${email} with subject "${subject}"`)
+      return
+    }
+
     const templateToSend = templateList[subject]
 
     if (!templateToSend) {
