@@ -4,7 +4,10 @@ WORKDIR /app
 
 # Copy package files and install dependencies
 COPY package*.json ./
-RUN npm ci --only=production && npm cache clean --force
+RUN npm ci --only=production --ignore-scripts && npm cache clean --force
+
+# Rebuild native modules (like bcrypt) that need compilation
+RUN npm rebuild bcrypt
 
 # Production stage
 FROM node:18-slim
