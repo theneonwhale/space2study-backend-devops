@@ -1,5 +1,6 @@
 FROM node:18
 WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production --ignore-scripts
 COPY . .
-RUN npm install --only=production
 CMD ["npm", "run", "start:prod"]
