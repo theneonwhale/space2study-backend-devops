@@ -24,7 +24,7 @@ cat > .env.production << EOF
 NODE_ENV=production
 SERVER_PORT=3000
 SERVER_URL=http://16.170.215.24:3000
-CLIENT_URL=http://16.170.215.24:3001
+CLIENT_URL=http://space2study-frontend-2025-v2.s3-website.eu-north-1.amazonaws.com
 COOKIE_DOMAIN=16.170.215.24
 
 # Database
