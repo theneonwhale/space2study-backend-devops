@@ -1,0 +1,23 @@
+# Copy this file to terraform.tfvars and fill with your actual values
+
+aws_region = "us-east-1"
+project_name = "space2study"
+environment = "prod"
+
+# MongoDB Atlas Organization ID (get from Atlas console)
+mongodb_atlas_org_id = "YOUR_MONGODB_ORG_ID_HERE"
+
+# SuperAdmin configuration
+superadmin_firstname = "Super"
+superadmin_lastname = "Admin"
+superadmin_email = "EMAIL"
+superadmin_password = "PASSWORD"
+
+# Gmail configuration (from OAuth setup)
+mail_user = "EMAIL"
+gmail_client_id = "CLIENT_ID"
+gmail_client_secret = "CLIENT_SECRET"
+gmail_refresh_token = "REFRESH_TOKEN"
+
+# Security - restrict to your IP
+allowed_ip_addresses = ["YOUR_IP_ADDRESS/32"]
