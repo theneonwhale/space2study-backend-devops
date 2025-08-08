@@ -34,9 +34,9 @@ yum install -y nodejs
 mkdir -p /home/ec2-user/app
 cd /home/ec2-user/app
 
-# Clone repository
-echo "Cloning repository..."
-git clone https://github.com/theneonwhale/space2study-backend-devops.git .
+# Clone repository from terraform branch
+echo "Cloning repository (terraform branch)..."
+git clone --branch terraform https://github.com/theneonwhale/space2study-backend-devops.git .
 
 # Create environment file from AWS Secrets Manager
 echo "Getting secrets from AWS Secrets Manager..."
