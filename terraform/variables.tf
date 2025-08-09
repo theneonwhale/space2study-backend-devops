@@ -3,7 +3,18 @@ variable "aws_region" {
   type        = string
   default     = "us-east-1"
 }
+# MongoDB Atlas API Keys
+variable "mongodb_atlas_public_key" {
+  description = "MongoDB Atlas Public API Key"
+  type        = string
+  sensitive   = true
+}
 
+variable "mongodb_atlas_private_key" {
+  description = "MongoDB Atlas Private API Key"
+  type        = string
+  sensitive   = true
+}
 variable "project_name" {
   description = "Project name for resource naming"
   type        = string
@@ -69,6 +80,30 @@ variable "gmail_client_secret" {
 
 variable "gmail_refresh_token" {
   description = "Gmail OAuth Refresh Token"
+  type        = string
+  sensitive   = true
+}
+
+variable "jwt_access_secret" {
+  description = "JWT access secret"
+  type        = string
+  sensitive   = true
+}
+
+variable "jwt_refresh_secret" {
+  description = "JWT refresh secret"
+  type        = string
+  sensitive   = true
+}
+
+variable "jwt_reset_secret" {
+  description = "JWT reset secret"
+  type        = string
+  sensitive   = true
+}
+
+variable "jwt_confirm_secret" {
+  description = "JWT confirm secret"
   type        = string
   sensitive   = true
 }

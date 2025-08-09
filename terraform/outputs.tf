@@ -1,37 +1,37 @@
 output "backend_public_ip" {
   description = "Backend server public IP"
-  value       = aws_eip.backend.public_ip
+  value       = module.ec2_backend.backend_public_ip
 }
 
 output "backend_url" {
   description = "Backend server URL"
-  value       = "http://${aws_eip.backend.public_ip}:3000"
+  value       = "http://${module.ec2_backend.backend_public_ip}:3000"
 }
 
 output "frontend_url" {
   description = "Frontend URL"
-  value       = "http://${aws_s3_bucket_website_configuration.frontend.website_endpoint}"
+  value       = module.s3_frontend.frontend_website_endpoint
 }
 
 output "s3_bucket_name" {
   description = "S3 bucket name for frontend"
-  value       = aws_s3_bucket.frontend.id
+  value       = module.s3_frontend.s3_bucket_name
 }
 
 output "mongodb_cluster_name" {
   description = "MongoDB cluster name"
-  value       = mongodbatlas_cluster.space2study.name
+  value       = module.mongodb.mongodb_cluster_name
 }
 
 output "mongodb_connection_string" {
   description = "MongoDB connection string (sensitive)"
-  value       = data.mongodbatlas_cluster.space2study.connection_strings[0].standard_srv
+  value       = module.mongodb.mongodb_connection_string
   sensitive   = true
 }
 
 output "ssh_command" {
   description = "SSH command to connect to backend"
-  value       = "ssh -i ~/.ssh/space2study-key ec2-user@${aws_eip.backend.public_ip}"
+  value       = "ssh -i ~/.ssh/space2study-key ec2-user@${module.ec2_backend.backend_public_ip}"
 }
 
 output "deployment_commands" {
@@ -39,12 +39,12 @@ output "deployment_commands" {
   value = <<-EOT
     # Frontend Deployment:
     cd /path/to/your/frontend
-    echo "VITE_API_BASE_PATH=http://${aws_eip.backend.public_ip}:3000" > .env.production
+    echo "VITE_API_BASE_PATH=http://${module.ec2_backend.backend_public_ip}:3000" > .env.production
     npm run build
-    aws s3 sync ./dist s3://${aws_s3_bucket.frontend.id} --delete
+    aws s3 sync ./dist s3://${module.s3_frontend.s3_bucket_name} --delete
 
     # Backend Check:
-    ssh -i ~/.ssh/space2study-key ec2-user@${aws_eip.backend.public_ip}
+    ssh -i ~/.ssh/space2study-key ec2-user@${module.ec2_backend.backend_public_ip}
     docker ps
     docker logs $(docker ps -q)
   EOT
