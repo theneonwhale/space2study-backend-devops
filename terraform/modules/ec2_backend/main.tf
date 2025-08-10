@@ -122,7 +122,6 @@ resource "aws_iam_role_policy" "secrets_policy" {
           "secretsmanager:DescribeSecret"
         ]
         Resource = [
-          var.mongodb_secret_arn,
           var.app_secrets_arn
         ]
       }

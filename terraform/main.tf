@@ -49,7 +49,6 @@ module "ec2_backend" {
   environment           = var.environment
   aws_region            = var.aws_region
   allowed_ip_addresses  = var.allowed_ip_addresses
-  mongodb_secret_arn    = module.app_secrets.mongodb_secret_arn
   app_secrets_arn       = module.app_secrets.app_secrets_arn
 }
 
@@ -57,6 +56,7 @@ module "app_secrets" {
   source                    = "./modules/app_secrets"
   project_name              = var.project_name
   environment               = var.environment
+  mongodb_username          = module.mongodb.mongodb_database_user
   mongodb_password          = module.mongodb.mongodb_database_password
   mongodb_connection_string = module.mongodb.mongodb_connection_string
   backend_public_ip         = module.ec2_backend.backend_public_ip

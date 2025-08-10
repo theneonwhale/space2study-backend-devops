@@ -1,18 +1,3 @@
-# MongoDB URL secret
-resource "aws_secretsmanager_secret" "mongodb_url" {
-  name        = "${var.project_name}/mongodb-url"
-  description = "MongoDB connection URL"
-}
-
-resource "aws_secretsmanager_secret_version" "mongodb_url" {
-  secret_id = aws_secretsmanager_secret.mongodb_url.id
-  secret_string = replace(
-    var.mongodb_connection_string,
-    "<password>",
-    var.mongodb_password
-  )
-}
-
 # Application secrets
 resource "aws_secretsmanager_secret" "app_secrets" {
   name        = "${var.project_name}/app-secrets"
@@ -25,7 +10,7 @@ resource "aws_secretsmanager_secret_version" "app_secrets" {
     NODE_ENV                = "production"
     SERVER_PORT             = "3000"
     SERVER_URL              = "http://${var.backend_public_ip}:3000"
-    CLIENT_URL              = var.frontend_url
+    CLIENT_URL              = "http://${var.frontend_url}"
     COOKIE_DOMAIN           = var.backend_public_ip
     JWT_ACCESS_SECRET       = var.jwt_access_secret
     JWT_ACCESS_EXPIRES_IN   = "15m"
@@ -47,5 +32,6 @@ resource "aws_secretsmanager_secret_version" "app_secrets" {
     SUPERADMIN_LASTNAME     = var.superadmin_lastname
     SUPERADMIN_EMAIL        = var.superadmin_email
     SUPERADMIN_PASSWORD     = var.superadmin_password
+    MONGODB_URL             = "mongodb+srv://${urlencode(var.mongodb_username)}:${urlencode(var.mongodb_password)}@${replace(var.mongodb_connection_string, "mongodb+srv://", "")}/${var.project_name}"
   })
 }

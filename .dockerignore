@@ -16,6 +16,8 @@ docs/CODEOWNERS
 devops/
 aws/
 vault-data/
+terraform/
+.husky/
 
 # Logs and runtime data
 logs/
@@ -57,3 +59,4 @@ sonar-project.properties
 jsconfig.json
 .eslintrc.json
 .prettierrc
+

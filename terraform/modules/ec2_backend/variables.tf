@@ -18,11 +18,6 @@ variable "allowed_ip_addresses" {
   type        = list(string)
 }
 
-variable "mongodb_secret_arn" {
-  description = "ARN of the MongoDB URL secret in AWS Secrets Manager"
-  type        = string
-}
-
 variable "app_secrets_arn" {
   description = "ARN of the application secrets in AWS Secrets Manager"
   type        = string

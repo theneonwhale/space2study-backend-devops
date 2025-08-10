@@ -8,6 +8,11 @@ variable "environment" {
   type        = string
 }
 
+variable "mongodb_username" {
+  description = "MongoDB user username"
+  type        = string
+}
+
 variable "mongodb_password" {
   description = "MongoDB user password"
   type        = string
