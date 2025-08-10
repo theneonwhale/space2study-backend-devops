@@ -9,8 +9,6 @@ resource "aws_instance" "backend" {
   # IAM role for accessing Secrets Manager
   iam_instance_profile = aws_iam_instance_profile.ec2_profile.name
 
-  # user_data removed; project setup will be manual
-
   tags = {
     Name        = "${var.project_name}-backend"
     Environment = var.environment
