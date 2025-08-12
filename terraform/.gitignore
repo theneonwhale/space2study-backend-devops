@@ -1,0 +1,29 @@
+# Terraform files
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+
+# Terraform variable files
+terraform.tfvars
+*.auto.tfvars
+
+# Environment files
+.env.terraform
+
+# SSH keys
+*.pem
+*.pub
+
+# Backup files
+*.backup
+*.bak
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+output*.txt
+output*.json

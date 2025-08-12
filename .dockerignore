@@ -1,3 +1,62 @@
+# Dependencies
 node_modules
-devops/vault-data
-.env
+npm-debug.log*
+
+# Environment files
+.env*
+!.env.production
+
+# Version control
+.git
+.gitignore
+CODEOWNERS
+docs/CODEOWNERS
+
+# Development files
+devops/
+aws/
+vault-data/
+terraform/
+.husky/
+
+# Logs and runtime data
+logs/
+*.log
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage and test files
+coverage/
+test/
+*.test.js
+*.spec.js
+
+# IDE and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Documentation and images
+README.md
+*.jpg
+*.jpeg
+*.png
+*.gif
+photo.jpg
+photo2.jpg
+
+# Build artifacts
+*.tgz
+.nyc_output
+.npm
+
+# Configuration files not needed in container
+jest.config.js
+sonar-project.properties
+jsconfig.json
+.eslintrc.json
+.prettierrc
+

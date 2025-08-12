@@ -23,10 +23,10 @@ const gmailCredentials = {
 }
 
 const superAdmin = {
-  firstName: process.env.MAIL_FIRSTNAME,
-  lastName: process.env.MAIL_LASTNAME,
-  email: process.env.MAIL_USER,
-  password: process.env.MAIL_PASS
+  firstName: process.env.SUPERADMIN_FIRSTNAME,
+  lastName: process.env.SUPERADMIN_LASTNAME,
+  email: process.env.SUPERADMIN_EMAIL,
+  password: process.env.SUPERADMIN_PASSWORD
 }
 
 const azureAccess = {
