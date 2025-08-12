@@ -1,10 +1,38 @@
+# Find the latest Amazon Linux 2023 AMI
+data "aws_ami" "amazon_linux_2023" {
+  most_recent = true
+  owners      = ["amazon"]
+  filter {
+    name   = "name"
+    values = ["al2023-ami-*-x86_64"]
+  }
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+}
+
 # EC2 instance for backend
 resource "aws_instance" "backend" {
-  ami           = "ami-0c02fb55956c7d316" # Amazon Linux 2 AMI (us-east-1)
+  ami           = data.aws_ami.amazon_linux_2023.id # Amazon Linux 2023 AMI (us-east-1)
   instance_type = "t2.micro"              # Free tier
 
   key_name               = aws_key_pair.space2study.key_name
   vpc_security_group_ids = [aws_security_group.backend.id]
+
+  root_block_device {
+    volume_size = 8
+    volume_type = "gp3"
+    delete_on_termination = true
+  }
 
   # IAM role for accessing Secrets Manager
   iam_instance_profile = aws_iam_instance_profile.ec2_profile.name
@@ -84,7 +112,7 @@ resource "aws_security_group" "backend" {
 # Key pair for EC2 access
 resource "aws_key_pair" "space2study" {
   key_name   = "${var.project_name}-key"
-  public_key = file("~/.ssh/space2study-key.pub") # You'll need to generate this
+  public_key = file("~/.ssh/space2study-key.pub")
 }
 
 # IAM role for EC2 to access Secrets Manager

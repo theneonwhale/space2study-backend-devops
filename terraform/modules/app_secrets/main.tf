@@ -9,7 +9,7 @@ resource "aws_secretsmanager_secret_version" "app_secrets" {
   secret_string = jsonencode({
     NODE_ENV                = "production"
     SERVER_PORT             = "3000"
-    SERVER_URL              = "http://${var.backend_public_ip}:3000"
+    SERVER_URL              = "http://${var.backend_public_ip}"
     CLIENT_URL              = "http://${var.frontend_url}"
     COOKIE_DOMAIN           = var.backend_public_ip
     JWT_ACCESS_SECRET       = var.jwt_access_secret

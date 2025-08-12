@@ -30,6 +30,10 @@ resource "mongodbatlas_cluster" "space2study" {
 
   # MongoDB version
   mongo_db_major_version = "7.0"
+
+  lifecycle {
+    ignore_changes = [mongo_db_major_version]
+  }
 }
 
 # Create database user
@@ -54,8 +58,8 @@ resource "random_password" "mongodb_password" {
 # IP Access List (allow from anywhere for now - restrict later)
 resource "mongodbatlas_project_ip_access_list" "space2study" {
   project_id = mongodbatlas_project.space2study.id
-  cidr_block = "0.0.0.0/0"
-  comment    = "Allow access from anywhere (restrict in production)"
+  cidr_block = "${var.backend_public_ip}/32"
+  comment    = "Allow access from backend server"
 }
 
 # Get connection string

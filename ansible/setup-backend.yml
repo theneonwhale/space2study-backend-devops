@@ -1,0 +1,4 @@
+- hosts: _space2study_backend
+  become: true
+  roles:
+    - backend
