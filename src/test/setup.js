@@ -7,13 +7,7 @@ const serverSetup = require('~/initialization/serverSetup')
 
 const serverInit = async () => {
   const app = express()
-  const server = await serverSetup(app, { seedDatabase: false })
-  return { app: request(app), server }
-}
-
-const serverInitAndSeed = async () => {
-  const app = express()
-  const server = await serverSetup(app, { seedDatabase: true })
+  const server = await serverSetup(app)
   return { app: request(app), server }
 }
 
@@ -26,4 +20,4 @@ const stopServer = async (server) => {
   await server.close()
 }
 
-module.exports = { serverInit, serverInitAndSeed, serverCleanup, stopServer }
+module.exports = { serverInit, serverCleanup, stopServer }

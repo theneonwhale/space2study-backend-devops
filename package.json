@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --maxWorkers=1",
+    "test": "npx jest --maxWorkers=1",
     "start": "nodemon src/app.js --legacy-watch",
     "start:prod": "node src/app.js",
     "lint": "npx eslint . --fix",
