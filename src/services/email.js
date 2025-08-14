@@ -1,4 +1,3 @@
-const path = require('path')
 const EmailTemplates = require('email-templates')
 const { sendMail } = require('~/utils/mailer')
 const { templateList } = require('~/emails')
