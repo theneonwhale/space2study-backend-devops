@@ -35,14 +35,14 @@ jobs:
       run: npm run lint
 
     - name: Run tests
-      env:
-        MONGODB_URL: mongodb://localhost:27017/test
-        JWT_ACCESS_SECRET: test-secret
-        JWT_REFRESH_SECRET: test-secret-refresh
-        JWT_ACCESS_EXPIRES_IN: 1h
-        JWT_REFRESH_EXPIRES_IN: 1d
-        JWT_RESET_SECRET: test-reset-secret
-        JWT_CONFIRM_SECRET: test-confirm-secret
-        SUPERADMIN_EMAIL: superadmin@example.com
-        SUPERADMIN_PASSWORD: superadminpassword
-      run: npm test
+        env:
+          MONGODB_URL: ${{ secrets.MONGODB_URL }}
+          JWT_ACCESS_SECRET: ${{ secrets.JWT_ACCESS_SECRET }}
+          JWT_REFRESH_SECRET: ${{ secrets.JWT_REFRESH_SECRET }}
+          JWT_ACCESS_EXPIRES_IN: 1h
+          JWT_REFRESH_EXPIRES_IN: 1d
+          JWT_RESET_SECRET: ${{ secrets.JWT_RESET_SECRET }}
+          JWT_CONFIRM_SECRET: ${{ secrets.JWT_CONFIRM_SECRET }}
+          SUPERADMIN_EMAIL: ${{ secrets.SUPERADMIN_EMAIL }}
+          SUPERADMIN_PASSWORD: ${{ secrets.SUPERADMIN_PASSWORD }}
+        run: npm test
