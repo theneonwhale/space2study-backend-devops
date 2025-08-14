@@ -10,6 +10,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    services:
+      mongodb:
+        image: mongo
+        ports:
+          - 27017:27017
+
     strategy:
       matrix:
         node-version: [18.x]
@@ -29,4 +35,10 @@ jobs:
       run: npm run lint
 
     - name: Run tests
+      env:
+        MONGODB_URL: mongodb://localhost:27017/test
+        JWT_ACCESS_SECRET: test-secret
+        JWT_REFRESH_SECRET: test-secret-refresh
+        JWT_ACCESS_EXPIRES_IN: 1h
+        JWT_REFRESH_EXPIRES_IN: 1d
       run: npm test
