@@ -18,6 +18,8 @@ const { createError } = require('~/utils/errorsHelper')
 
 const tokenService = {
   generateTokens: (payload) => {
+    console.log('JWT_ACCESS_EXPIRES_IN:', JWT_ACCESS_EXPIRES_IN, typeof JWT_ACCESS_EXPIRES_IN)
+    console.log('JWT_REFRESH_EXPIRES_IN:', JWT_REFRESH_EXPIRES_IN, typeof JWT_REFRESH_EXPIRES_IN)
     const accessToken = jwt.sign(payload, JWT_ACCESS_SECRET, {
       expiresIn: JWT_ACCESS_EXPIRES_IN
     })
