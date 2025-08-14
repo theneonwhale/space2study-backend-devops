@@ -36,7 +36,7 @@ jobs:
 
     - name: Run tests
       env:
-        MONGODB_URL: ${{ secrets.MONGODB_URL }}
+        MONGODB_URL: mongodb://localhost:27017/test
         JWT_ACCESS_SECRET: ${{ secrets.JWT_ACCESS_SECRET }}
         JWT_REFRESH_SECRET: ${{ secrets.JWT_REFRESH_SECRET }}
         JWT_ACCESS_EXPIRES_IN: 1h
