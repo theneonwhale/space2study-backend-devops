@@ -30,6 +30,7 @@ module "mongodb" {
   project_name          = var.project_name
   environment           = var.environment
   mongodb_atlas_org_id  = var.mongodb_atlas_org_id
+  backend_public_ip     = module.ec2_backend.backend_public_ip
 
   providers = {
     mongodbatlas = mongodbatlas

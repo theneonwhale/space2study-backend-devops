@@ -1,10 +1,15 @@
+variable "backend_public_ip" {
+  description = "The public IP address of the backend server."
+  type        = string
+}
+
 variable "project_name" {
   description = "Project name for resource naming"
   type        = string
 }
 
 variable "environment" {
-  description = "Deployment environment (e.g., prod, dev)"
+  description = "Environment (dev, staging, prod)"
   type        = string
 }
 

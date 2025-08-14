@@ -3,6 +3,11 @@ output "app_secrets_arn" {
   value       = aws_secretsmanager_secret.app_secrets.arn
 }
 
+output "backend_secret_id" {
+  description = "Backend secret id"
+  value       = aws_secretsmanager_secret.app_secrets.id
+}
+
 output "mongodb_url_with_credentials" {
   description = "MongoDB connection string with user and password"
   value       = "mongodb+srv://${var.mongodb_username}:${var.mongodb_password}@${replace(var.mongodb_connection_string, "mongodb+srv://", "")}/${var.project_name}"

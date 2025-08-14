@@ -1,0 +1,2 @@
+- import_playbook: setup-backend.yml
+- import_playbook: setup-frontend.yml

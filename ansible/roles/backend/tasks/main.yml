@@ -1,0 +1,98 @@
+- name: Update all system packages
+  yum:
+    name: '*'
+    state: latest
+  become: yes
+
+- name: Install required packages
+  yum:
+    name:
+      - git
+      - nodejs
+      - python3-pip
+    state: present
+  become: yes
+
+- name: Install boto3 and botocore
+  pip:
+    name:
+      - boto3
+      - botocore
+    executable: pip3
+  become: yes
+
+- name: Ensure app directory exists
+  file:
+    path: /home/ec2-user/app
+    state: directory
+    owner: ec2-user
+    group: ec2-user
+    mode: '0755'
+
+- name: Clone the backend repository
+  git:
+    repo: 'https://github.com/theneonwhale/space2study-backend-devops.git'
+    dest: /home/ec2-user/app
+    version: main
+    force: yes
+  become: yes
+  become_user: ec2-user
+
+- name: Install npm dependencies
+  npm:
+    path: /home/ec2-user/app
+  become: yes
+  become_user: ec2-user
+
+- name: Install PM2 globally
+  npm:
+    name: pm2
+    global: yes
+  become: yes
+
+- name: Get secrets from AWS Secrets Manager
+  shell: "aws secretsmanager get-secret-value --secret-id {{ backend_secret_id }} --region {{ aws_region }} --query SecretString --output text"
+  register: backend_secrets_json
+
+- name: Create .env file
+  copy:
+    content: "{{ backend_secrets_json.stdout | from_json | dict2items | map(attribute='key') | zip(backend_secrets_json.stdout | from_json | dict2items | map(attribute='value')) | map('join', '=') | join('\n') }}"
+    dest: /home/ec2-user/app/.env
+
+- name: Start the application with PM2
+  command: pm2 start src/app.js --name space2study-backend
+  args:
+    chdir: /home/ec2-user/app
+  become: yes
+  become_user: ec2-user
+  environment:
+    PATH: "/usr/bin:{{ ansible_env.PATH }}"
+
+- name: Configure PM2 to start on boot
+  command: pm2 startup systemd -u ec2-user --hp /home/ec2-user
+  become: yes
+
+- name: Save PM2 process list
+  command: pm2 save
+  become: yes
+  become_user: ec2-user
+
+- name: Install NGINX
+  yum:
+    name: nginx
+    state: present
+  become: yes
+
+- name: Create NGINX configuration
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/conf.d/space2study.conf
+  notify: Restart NGINX
+  become: yes
+
+- name: Start and enable NGINX
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+  become: yes

@@ -35,7 +35,6 @@ variable "mongodb_atlas_org_id" {
 variable "allowed_ip_addresses" {
   description = "IP addresses allowed to access EC2"
   type        = list(string)
-  default     = ["0.0.0.0/0"] # IP for SSH access
 }
 
 # Environment variables for the application

@@ -1,3 +1,8 @@
+output "aws_region" {
+  description = "AWS region"
+  value       = var.aws_region
+}
+
 output "backend_public_ip" {
   description = "Backend server public IP"
   value       = module.ec2_backend.backend_public_ip
@@ -5,7 +10,12 @@ output "backend_public_ip" {
 
 output "backend_url" {
   description = "Backend server URL"
-  value       = "http://${module.ec2_backend.backend_public_ip}:3000"
+  value       = "http://${module.ec2_backend.backend_public_ip}"
+}
+
+output "backend_secret_id" {
+  description = "Backend secret id"
+  value       = module.app_secrets.backend_secret_id
 }
 
 output "frontend_url" {
@@ -32,20 +42,4 @@ output "mongodb_connection_string" {
 output "ssh_command" {
   description = "SSH command to connect to backend"
   value       = "ssh -i ~/.ssh/space2study-key ec2-user@${module.ec2_backend.backend_public_ip}"
-}
-
-output "deployment_commands" {
-  description = "Commands to deploy frontend and check backend"
-  value = <<-EOT
-    # Frontend Deployment:
-    cd /path/to/your/frontend
-    echo "VITE_API_BASE_PATH=http://${module.ec2_backend.backend_public_ip}:3000" > .env.production
-    npm run build
-    aws s3 sync ./dist s3://${module.s3_frontend.s3_bucket_name} --delete
-
-    # Backend Check:
-    ssh -i ~/.ssh/space2study-key ec2-user@${module.ec2_backend.backend_public_ip}
-    docker ps
-    docker logs $(docker ps -q)
-  EOT
 }
