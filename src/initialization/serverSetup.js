@@ -8,10 +8,12 @@ const {
 } = require('~/configs/config')
 const scheduledCronJobs = require('~/cron-jobs/scheduledCronJobs')
 
-const serverSetup = async (app) => {
+const serverSetup = async (app, { seedDatabase = true } = {}) => {
   await databaseInitialization()
-  await checkUserExistence()
-  await checkCategoryExistence()
+  if (seedDatabase) {
+    await checkUserExistence()
+    await checkCategoryExistence()
+  }
   initialization(app)
   return app.listen(SERVER_PORT, () => {
     logger.info(`Server is running on port ${SERVER_PORT}`)

@@ -7,17 +7,21 @@ const serverSetup = require('~/initialization/serverSetup')
 
 const serverInit = async () => {
   const app = express()
-  const server = await serverSetup(app)
+  const server = await serverSetup(app, { seedDatabase: false })
   return { app: request(app), server }
 }
 
-const serverCleanup = async () => {
-  await mongoose.connection.db.dropDatabase()
+const serverInitAndSeed = async () => {
+  const app = express()
+  const server = await serverSetup(app, { seedDatabase: true })
+  return { app: request(app), server }
 }
+
+const serverCleanup = async () => {}
 
 const stopServer = async (server) => {
   await mongoose.connection.close()
   await server.close()
 }
 
-module.exports = { serverInit, serverCleanup, stopServer }
+module.exports = { serverInit, serverInitAndSeed, serverCleanup, stopServer }

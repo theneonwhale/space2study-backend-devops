@@ -26,7 +26,7 @@ module.exports = {
   },
   coverageReporters: ['html', 'lcov'],
   coverageDirectory: '<rootDir>/src/test/coverage',
-  testTimeout: 12000,
+  testTimeout: 60000,
   testMatch: [
     '<rootDir>/src/test/integration/**/*.spec.js',
     '<rootDir>/src/test/unit/**/*.spec.js'

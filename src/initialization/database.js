@@ -6,12 +6,7 @@ const {
 const logger = require('~/logger/logger')
 
 const dropAllCollections = async () => {
-  const collections = await mongoose.connection.db.collections()
-  const areDropped = []
-  collections.forEach((collection) => {
-    areDropped.push(collection.drop())
-  })
-  await Promise.all(areDropped)
+  await mongoose.connection.db.dropDatabase()
 }
 
 const checkForLocalDB = async () => {
