@@ -130,8 +130,8 @@ jobs:
         uses: dawidd6/action-ansible-playbook@v4
         with:
           playbook: main.yml
-          directory: ./backend/ansible
-          requirements: ./ansible/requirements.txt
+          directory: ./ansible
+          requirements: requirements.txt
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           inventory: |
             [aws_ec2]
