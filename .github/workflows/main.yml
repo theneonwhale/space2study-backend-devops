@@ -131,10 +131,6 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           inventory: |
             [aws_ec2]
-                        ${{ needs.terraform.outputs.ip }} ansible_user=ec2-user
-          extra_vars: |
-            backend_secret_id=${{ needs.terraform.outputs.backend_secret_id }}
-            aws_region=${{ needs.terraform.outputs.aws_region }}
-            s3_bucket_name=${{ needs.terraform.outputs.s3_bucket_name }}
-            backend_public_ip=${{ needs.terraform.outputs.backend_public_ip }}
-            frontend_repository_path=${{ github.workspace }}/frontend
+            ${{ steps.instance_ip.outputs.ip }} ansible_user=ec2-user
+          options: |
+            --extra-vars "backend_secret_id=${{ steps.backend_secret_id.outputs.id }} aws_region=${{ steps.aws_region.outputs.region }} s3_bucket_name=${{ steps.s3_bucket_name.outputs.name }} backend_public_ip=${{ steps.instance_ip.outputs.ip }} frontend_repository_path=${{ github.workspace }}/frontend"
