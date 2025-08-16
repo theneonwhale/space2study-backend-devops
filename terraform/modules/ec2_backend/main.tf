@@ -4,7 +4,7 @@ data "aws_ami" "amazon_linux_2023" {
   owners      = ["amazon"]
   filter {
     name   = "name"
-    values = ["amzn2-ami-hvm-*-x86_64-gp2"]
+    values = ["al2023-ami-*-x86_64"]
   }
   filter {
     name   = "architecture"
@@ -29,8 +29,8 @@ resource "aws_instance" "backend" {
   vpc_security_group_ids = [aws_security_group.backend.id]
 
   root_block_device {
-    volume_size = 8
-    volume_type = "gp3"
+    volume_size           = 30
+    volume_type           = "gp3"
     delete_on_termination = true
   }
 
