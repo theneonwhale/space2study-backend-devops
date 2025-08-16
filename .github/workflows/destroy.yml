@@ -1,0 +1,48 @@
+name: Destroy Infrastructure
+
+on:
+  workflow_dispatch:
+
+jobs:
+  destroy:
+    name: 'Destroy Infrastructure'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v4
+
+      - name: 'Set up Terraform'
+        uses: hashicorp/setup-terraform@v3
+
+      - name: 'Configure AWS credentials'
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: 'Terraform Init'
+        run: terraform init
+        working-directory: ./terraform
+
+      - name: 'Terraform Destroy'
+        run: terraform destroy -auto-approve
+        working-directory: ./terraform
+        env:
+          TF_VAR_allowed_ip_addresses: "0.0.0.0/0"
+          TF_VAR_mongodb_atlas_public_key: ${{ secrets.MONGODB_ATLAS_PUBLIC_KEY }}
+          TF_VAR_mongodb_atlas_private_key: ${{ secrets.MONGODB_ATLAS_PRIVATE_KEY }}
+          TF_VAR_mongodb_atlas_org_id: ${{ secrets.MONGODB_ATLAS_ORG_ID }}
+          TF_VAR_superadmin_firstname: ${{ secrets.SUPERADMIN_FIRSTNAME }}
+          TF_VAR_superadmin_lastname: ${{ secrets.SUPERADMIN_LASTNAME }}
+          TF_VAR_superadmin_email: ${{ secrets.SUPERADMIN_EMAIL }}
+          TF_VAR_superadmin_password: ${{ secrets.SUPERADMIN_PASSWORD }}
+          TF_VAR_mail_user: ${{ secrets.MAIL_USER }}
+          TF_VAR_gmail_client_id: ${{ secrets.GMAIL_CLIENT_ID }}
+          TF_VAR_gmail_client_secret: ${{ secrets.GMAIL_CLIENT_SECRET }}
+          TF_VAR_gmail_refresh_token: ${{ secrets.GMAIL_REFRESH_TOKEN }}
+          TF_VAR_jwt_access_secret: ${{ secrets.JWT_ACCESS_SECRET }}
+          TF_VAR_jwt_refresh_secret: ${{ secrets.JWT_REFRESH_SECRET }}
+          TF_VAR_jwt_reset_secret: ${{ secrets.JWT_RESET_SECRET }}
+          TF_VAR_jwt_confirm_secret: ${{ secrets.JWT_CONFIRM_SECRET }}
