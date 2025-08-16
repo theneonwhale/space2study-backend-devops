@@ -33,7 +33,7 @@
   git:
     repo: 'https://github.com/theneonwhale/space2study-backend-devops.git'
     dest: /home/ec2-user/app
-    version: main
+    version: develop
     force: yes
   become: yes
   become_user: ec2-user
