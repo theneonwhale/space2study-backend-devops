@@ -131,6 +131,7 @@ jobs:
 
       - name: Run Ansible Playbook
         run: |
+          export ANSIBLE_HOST_KEY_CHECKING=False
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ./.ansible_key
           chmod 600 ./.ansible_key
           

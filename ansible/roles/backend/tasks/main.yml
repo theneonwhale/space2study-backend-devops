@@ -44,8 +44,10 @@
   become: yes
   become_user: ec2-user
 
-- name: Install PM2 globally using shell
-  shell: npm install pm2 -g
+- name: Install PM2 globally
+  npm:
+    name: pm2
+    global: yes
   become: yes
 
 - name: Get secrets from AWS Secrets Manager
