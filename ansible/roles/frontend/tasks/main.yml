@@ -6,6 +6,11 @@
     create: yes
   delegate_to: localhost
 
+- name: Install dependencies
+  ansible.builtin.command:
+    cmd: npm install
+    chdir: "{{ frontend_repository_path }}"
+
 - name: Build frontend
   command: npm run build
   args:
