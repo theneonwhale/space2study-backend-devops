@@ -28,7 +28,6 @@ jobs:
       - name: Run linter
         run: npm run lint
 
-    steps:
       - name: Run tests
         env:
           MONGODB_URL: mongodb://localhost:27017/test
