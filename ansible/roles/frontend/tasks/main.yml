@@ -11,11 +11,6 @@
     cmd: npm install
     chdir: "{{ frontend_repository_path }}"
 
-- name: Install Prettier config for ESLint
-  ansible.builtin.command:
-    cmd: npm install --save-dev eslint-config-prettier
-    chdir: "{{ frontend_repository_path }}"
-
 - name: Build frontend
   command: npm run build
   args:

@@ -123,6 +123,9 @@ jobs:
           repository: theneonwhale/space2study-frontend-devops
           path: frontend
 
+      - name: 'Remove backend ESLint config to prevent conflict'
+        run: rm ./.eslintrc.json
+
       - name: 'Run Ansible Playbook'
         uses: dawidd6/action-ansible-playbook@v2
         with:
