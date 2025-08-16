@@ -60,7 +60,7 @@
     dest: /home/ec2-user/app/.env
 
 - name: Start the application with PM2
-  command: pm2 start src/app.js --name space2study-backend
+  command: pm2 startOrReload src/app.js --name space2study-backend
   args:
     chdir: /home/ec2-user/app
   become: yes
