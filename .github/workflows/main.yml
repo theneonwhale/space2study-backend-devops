@@ -126,6 +126,9 @@ jobs:
       - name: 'Remove backend ESLint config to prevent conflict'
         run: rm ./.eslintrc.json
 
+      - name: Install Ansible AWS dependencies
+        run: pip install boto3 botocore
+
       - name: 'Run Ansible Playbook'
         uses: dawidd6/action-ansible-playbook@v2
         with:
