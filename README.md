@@ -1,3 +1,5 @@
+[![CI/CD](https://github.com/theneonwhale/space2study-backend-devops/actions/workflows/main.yml/badge.svg)](https://github.com/theneonwhale/space2study-backend-devops/actions/workflows/main.yml)
+
 # Space2Study-BackEnd-mvp
 <a href="https://softserve.academy/"><img src="https://github.com/ita-social-projects/Space2Study-BackEnd-mvp/blob/main/photo.jpg" title="SoftServe IT Academy" alt="SoftServe IT Academy"></a>
 
