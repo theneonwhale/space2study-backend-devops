@@ -1,18 +1,11 @@
 # S3 bucket for frontend hosting
 resource "aws_s3_bucket" "frontend" {
-  bucket = "${var.project_name}-frontend-${random_string.bucket_suffix.result}"
+  bucket = "${var.project_name}-frontend-${var.environment}"
 
   tags = {
     Name        = "${var.project_name}-frontend"
     Environment = var.environment
   }
-}
-
-# Random suffix for bucket name (S3 names must be globally unique)
-resource "random_string" "bucket_suffix" {
-  length  = 8
-  special = false
-  upper   = false
 }
 
 # S3 bucket public access configuration

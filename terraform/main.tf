@@ -1,4 +1,10 @@
 terraform {
+  backend "s3" {
+    bucket         = "space2study-backend-devops-tfstate"
+    key            = "terraform.tfstate"
+    region         = "us-east-1"
+    encrypt        = true
+  }
   required_version = ">= 1.0"
   required_providers {
     aws = {

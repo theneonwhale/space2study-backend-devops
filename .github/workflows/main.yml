@@ -63,6 +63,10 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
+      - name: 'Create S3 Backend Bucket if it does not exist'
+        run: |
+          aws s3api head-bucket --bucket space2study-backend-devops-tfstate 2>/dev/null || aws s3api create-bucket --bucket space2study-backend-devops-tfstate --region us-east-1
+
       - name: 'Terraform Init'
         run: terraform init
         working-directory: ./terraform
