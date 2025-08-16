@@ -28,9 +28,9 @@ SpaceToStudy project is a platform where experts in various fields share their k
 - [Contributing](#contributing)
   - [git flow](#git-flow)
   - [issue flow](#git-flow)
-- [Teams](#teams) 
-  - [Development team](#development-team) 
-  - [DevOps team](#devops-team)  
+- [Teams](#teams)
+  - [Development team](#development-team)
+  - [DevOps team](#devops-team)
 - [FAQ](#faq)
 - [Support](#support)
 - [License](#license)
@@ -150,7 +150,7 @@ Then open one more terminal and run `npm run cypress`.
 - Runtime work
   - Locally application is running in docker container. We have two docker
     containers: `api` container and `database` container.
-    
+
 #### Components
 
 Order of testing components:
@@ -253,7 +253,7 @@ e.g. #020-createAdminPanel
 
 ### Git flow
 
-We have **main** , **develop** and **feature** branches.  
+We have **main** , **develop** and **feature** branches.
 All **feature** branches must be merged into [develop](https://github.com/ita-social-projects/Space2Study-BackEnd-mvp/tree/develop) branch!!!
 Only the release should merge into the main branch!!!
 
@@ -315,3 +315,5 @@ Only the release should merge into the main branch!!!
 [MIT](https://choosealicense.com/licenses/mit/)
 
 [![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)
+
+# test line
