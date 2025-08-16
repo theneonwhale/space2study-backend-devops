@@ -126,14 +126,12 @@ jobs:
       - name: 'Remove backend ESLint config to prevent conflict'
         run: rm ./.eslintrc.json
 
-      - name: Install Ansible AWS dependencies
-        run: pip install boto3 botocore
-
       - name: 'Run Ansible Playbook'
-        uses: dawidd6/action-ansible-playbook@v2
+        uses: dawidd6/action-ansible-playbook@v4
         with:
           playbook: main.yml
           directory: ./backend/ansible
+          requirements: ./ansible/requirements.txt
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           inventory: |
             [aws_ec2]
