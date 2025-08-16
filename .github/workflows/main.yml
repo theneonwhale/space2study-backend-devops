@@ -135,7 +135,7 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ./.ansible_key
           chmod 600 ./.ansible_key
           
-          echo "[aws_ec2]" > ./inventory.ini
+          echo "[_space2study_backend]" > ./inventory.ini
           echo "${{ steps.instance_ip.outputs.ip }} ansible_user=ec2-user" >> ./inventory.ini
           
           ansible-playbook main.yml \
