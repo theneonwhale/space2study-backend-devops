@@ -34,13 +34,23 @@ jobs:
         working-directory: ./terraform
 
       - name: 'Terraform Apply'
-        run: terraform apply -auto-approve -var 'allowed_ip_addresses=${{ secrets.ALLOWED_IP_ADDRESSES }}'
+        run: terraform apply -auto-approve
         working-directory: ./terraform
         env:
+          TF_VAR_allowed_ip_addresses: ${{ secrets.ALLOWED_IP_ADDRESSES }}
+          TF_VAR_mongodb_atlas_public_key: ${{ secrets.MONGODB_ATLAS_PUBLIC_KEY }}
+          TF_VAR_mongodb_atlas_private_key: ${{ secrets.MONGODB_ATLAS_PRIVATE_KEY }}
+          TF_VAR_mongodb_atlas_org_id: ${{ secrets.MONGODB_ATLAS_ORG_ID }}
+          TF_VAR_superadmin_email: ${{ secrets.SUPERADMIN_EMAIL }}
+          TF_VAR_superadmin_password: ${{ secrets.SUPERADMIN_PASSWORD }}
           TF_VAR_mail_user: ${{ secrets.MAIL_USER }}
           TF_VAR_gmail_client_id: ${{ secrets.GMAIL_CLIENT_ID }}
           TF_VAR_gmail_client_secret: ${{ secrets.GMAIL_CLIENT_SECRET }}
           TF_VAR_gmail_refresh_token: ${{ secrets.GMAIL_REFRESH_TOKEN }}
+          TF_VAR_jwt_access_secret: ${{ secrets.JWT_ACCESS_SECRET }}
+          TF_VAR_jwt_refresh_secret: ${{ secrets.JWT_REFRESH_SECRET }}
+          TF_VAR_jwt_reset_secret: ${{ secrets.JWT_RESET_SECRET }}
+          TF_VAR_jwt_confirm_secret: ${{ secrets.JWT_CONFIRM_SECRET }}
 
       - name: 'Get instance IP'
         id: instance_ip
