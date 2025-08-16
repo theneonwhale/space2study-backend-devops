@@ -34,8 +34,13 @@ jobs:
         working-directory: ./terraform
 
       - name: 'Terraform Apply'
-        run: terraform apply -auto-approve -var 'allowed_ip_addresses=["176.37.34.92/32"]'
+        run: terraform apply -auto-approve -var 'allowed_ip_addresses=${{ secrets.ALLOWED_IP_ADDRESSES }}'
         working-directory: ./terraform
+        env:
+          TF_VAR_mail_user: ${{ secrets.MAIL_USER }}
+          TF_VAR_gmail_client_id: ${{ secrets.GMAIL_CLIENT_ID }}
+          TF_VAR_gmail_client_secret: ${{ secrets.GMAIL_CLIENT_SECRET }}
+          TF_VAR_gmail_refresh_token: ${{ secrets.GMAIL_REFRESH_TOKEN }}
 
       - name: 'Get instance IP'
         id: instance_ip
