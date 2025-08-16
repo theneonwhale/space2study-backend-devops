@@ -30,7 +30,7 @@ jobs:
         run: terraform destroy -auto-approve
         working-directory: ./terraform
         env:
-          TF_VAR_allowed_ip_addresses: "0.0.0.0/0"
+          TF_VAR_allowed_ip_addresses: ${{ secrets.ALLOWED_IP_ADDRESSES }}
           TF_VAR_mongodb_atlas_public_key: ${{ secrets.MONGODB_ATLAS_PUBLIC_KEY }}
           TF_VAR_mongodb_atlas_private_key: ${{ secrets.MONGODB_ATLAS_PRIVATE_KEY }}
           TF_VAR_mongodb_atlas_org_id: ${{ secrets.MONGODB_ATLAS_ORG_ID }}
