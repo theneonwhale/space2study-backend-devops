@@ -25,7 +25,7 @@ resource "aws_instance" "backend" {
   ami           = data.aws_ami.amazon_linux_2023.id # Amazon Linux 2023 AMI (us-east-1)
   instance_type = "t2.micro"              # Free tier
 
-  key_name               = aws_key_pair.space2study.key_name
+  key_name               = "space2study-key"
   vpc_security_group_ids = [aws_security_group.backend.id]
 
   root_block_device {
@@ -107,12 +107,6 @@ resource "aws_security_group" "backend" {
     Name        = "${var.project_name}-backend-sg"
     Environment = var.environment
   }
-}
-
-# Key pair for EC2 access
-resource "aws_key_pair" "space2study" {
-  key_name   = "${var.project_name}-key"
-  public_key = file("~/.ssh/space2study-key.pub")
 }
 
 # IAM role for EC2 to access Secrets Manager

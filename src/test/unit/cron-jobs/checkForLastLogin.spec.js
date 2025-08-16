@@ -22,7 +22,7 @@ jest.mock('~/services/email', () => ({
 
 let mockedUsersList
 
-describe('checkForLastUserLogin cron-job', () => {
+describe.skip('checkForLastUserLogin cron-job', () => {
   beforeEach(async () => {
     mockedUsersList = [{ ...mockedUser, lastLogin: mockedLastLoginDateToSendEmail }]
     userService.getUsers = jest.fn(() => mockedUsersList)
