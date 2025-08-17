@@ -1,8 +1,4 @@
-# -*- mode: ruby -*-
-# vi: set ft=ruby :
-
 Vagrant.configure("2") do |config|
-  # Use the spox/ubuntu-arm box, which is specifically for the ARM architecture.
   config.vm.box = "spox/ubuntu-arm"
   config.vm.box_version = "1.0.0"
 
