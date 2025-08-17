@@ -1,16 +1,39 @@
-version: '3.8'
-
 services:
+  database:
+    image: mongo:latest
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - app-network
+
   backend:
-    build: .
-    image: theneonwhale/space2study-backend:latest
-    container_name: space2study-backend
+    build: ${BACKEND_PATH}
+    container_name: backend
     ports:
       - "3000:3000"
+    depends_on:
+      - database
+    networks:
+      - app-network
     env_file:
-      - /home/ec2-user/app/.env
-    restart: unless-stopped
-    volumes:
-      - ./logs:/app/logs
-    environment:
-      - NODE_ENV=production
+      - .env.docker
+
+  frontend:
+    build: ${FRONTEND_PATH}
+    container_name: frontend
+    ports:
+      - "3001:3000"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+volumes:
+  mongo_data:
+
+networks:
+  app-network:
+    driver: bridge

@@ -17,6 +17,7 @@ test-report.xml
 .env.test.local
 .env.production
 .env.production.local
+.env.docker
 .idea
 
 npm-debug.log*
