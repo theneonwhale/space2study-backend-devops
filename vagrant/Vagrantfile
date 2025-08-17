@@ -1,0 +1,45 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  # Use the spox/ubuntu-arm box, which is specifically for the ARM architecture.
+  config.vm.box = "spox/ubuntu-arm"
+  config.vm.box_version = "1.0.0"
+
+  # The following block is for VirtualBox users.
+  # It will be ignored if you are using a different provider, like VMware.
+  config.vm.provider "virtualbox" do |v|
+    v.memory = 1024
+    v.cpus = 1
+  end
+
+  # The following block is for VMware users.
+  config.vm.provider :vmware_desktop do |vmware|
+    vmware.vmx["memsize"] = "2048"
+    vmware.vmx["numvcpus"] = "2"
+    vmware.vmx["ethernet0.virtualdev"] = "vmxnet3"
+  end
+
+  # Define the database VM
+  config.vm.define "database" do |database|
+    database.vm.hostname = "database"
+    database.vm.network "private_network", ip: "192.168.56.12"
+    database.vm.provision "shell", path: "provision-database.sh"
+  end
+
+  # Define the backend VM
+  config.vm.define "backend" do |backend|
+    backend.vm.hostname = "backend"
+    backend.vm.network "private_network", ip: "192.168.56.11"
+    backend.vm.network "forwarded_port", guest: 3000, host: 3000, auto_correct: true
+    backend.vm.provision "shell", path: "provision-backend.sh"
+  end
+
+  # Define the frontend VM
+  config.vm.define "frontend" do |frontend|
+    frontend.vm.hostname = "frontend"
+    frontend.vm.network "private_network", ip: "192.168.56.10"
+    frontend.vm.network "forwarded_port", guest: 3000, host: 3001, auto_correct: true
+    frontend.vm.provision "shell", path: "provision-frontend.sh"
+  end
+end

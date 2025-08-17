@@ -7,14 +7,8 @@ const logger = require('~/logger/logger')
 const cors = require('cors')
 const app = express()
 
-// Get allowed origins from environment variables
-const allowedOrigins = [
-  'http://localhost:3001',
-  'http://192.168.0.108:3001',
-  'http://frontend:3000'
-]
+const allowedOrigins = ['http://localhost:3001']
 
-// Add CLIENT_URL from environment if it exists (for production)
 if (process.env.CLIENT_URL) {
   allowedOrigins.push(process.env.CLIENT_URL)
 }
