@@ -1,2 +1,0 @@
-backend_docker_image: "theneonwhale/space2study-backend"
-backend_docker_tag: "latest"
