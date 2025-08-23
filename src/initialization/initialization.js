@@ -11,6 +11,7 @@ const swaggerOptions = require('../../swagger-settings')
 const router = require('~/routes')
 const { createNotFoundError } = require('~/utils/errorsHelper')
 const errorMiddleware = require('~/middlewares/error')
+const { metricsMiddleware, exposeMetricsMiddleware } = require('~/middlewares/metrics')
 
 const initialization = (app) => {
   app.use(express.json({ limit: '10mb' }))
@@ -24,6 +25,9 @@ const initialization = (app) => {
       allowedHeaders: 'Content-Type, Authorization'
     })
   )
+
+  app.use(metricsMiddleware)
+  app.get('/metrics', exposeMetricsMiddleware)
 
   const swaggerSettings = swaggerJsDoc(swaggerOptions)
   app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSettings))

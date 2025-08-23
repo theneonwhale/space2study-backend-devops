@@ -1,4 +1,7 @@
 - hosts: _space2study_backend
   become: true
+  vars:
+    monitoring_host: "{{ monitoring_ip }}"
   roles:
     - backend
+    - promtail

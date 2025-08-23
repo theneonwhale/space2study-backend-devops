@@ -95,24 +95,29 @@ jobs:
           TF_VAR_jwt_reset_secret: ${{ secrets.JWT_RESET_SECRET }}
           TF_VAR_jwt_confirm_secret: ${{ secrets.JWT_CONFIRM_SECRET }}
 
-      - name: 'Get instance IP'
+      - name: 'Get backend instance IP'
         id: instance_ip
-        run: echo "::set-output name=ip::$(terraform output -raw backend_public_ip)"
+        run: echo "ip=$(terraform output -raw backend_public_ip)" >> $GITHUB_OUTPUT
+        working-directory: ./terraform
+
+      - name: 'Get monitoring instance IP'
+        id: monitoring_instance_ip
+        run: echo "ip=$(terraform output -raw monitoring_public_ip)" >> $GITHUB_OUTPUT
         working-directory: ./terraform
 
       - name: 'Get backend secret id'
         id: backend_secret_id
-        run: echo "::set-output name=id::$(terraform output -raw backend_secret_id)"
+        run: echo "id=$(terraform output -raw backend_secret_id)" >> $GITHUB_OUTPUT
         working-directory: ./terraform
 
       - name: 'Get aws region'
         id: aws_region
-        run: echo "::set-output name=region::$(terraform output -raw aws_region)"
+        run: echo "region=$(terraform output -raw aws_region)" >> $GITHUB_OUTPUT
         working-directory: ./terraform
 
       - name: 'Get s3 bucket name'
         id: s3_bucket_name
-        run: echo "::set-output name=name::$(terraform output -raw s3_bucket_name)"
+        run: echo "name=$(terraform output -raw s3_bucket_name)" >> $GITHUB_OUTPUT
         working-directory: ./terraform
 
       - name: 'Checkout backend repository'
@@ -132,23 +137,37 @@ jobs:
       - name: Install Ansible and AWS SDK
         run: pip install ansible boto3 botocore
 
-      - name: Run Ansible Playbook
+      - name: 'Create SSH key file'
         run: |
-          export ANSIBLE_HOST_KEY_CHECKING=False
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ./.ansible_key
           chmod 600 ./.ansible_key
 
+      - name: 'Run Ansible Playbook for Monitoring'
+        run: |
+          export ANSIBLE_HOST_KEY_CHECKING=False
+          echo "[monitoring]" > ./inventory_monitoring.ini
+          echo "${{ steps.monitoring_instance_ip.outputs.ip }} ansible_user=ec2-user" >> ./inventory_monitoring.ini
+
+          ansible-playbook setup-monitoring.yml \
+            -i ./inventory_monitoring.ini \
+            --key-file ../.ansible_key
+        working-directory: ./ansible
+
+      - name: 'Run Ansible Playbook for Backend'
+        run: |
+          export ANSIBLE_HOST_KEY_CHECKING=False
           echo "[_space2study_backend]" > ./inventory.ini
           echo "${{ steps.instance_ip.outputs.ip }} ansible_user=ec2-user" >> ./inventory.ini
 
           ansible-playbook main.yml \
             -i ./inventory.ini \
-            --key-file ./.ansible_key \
+            --key-file ../.ansible_key \
             --extra-vars "\
               backend_secret_id=${{ steps.backend_secret_id.outputs.id }} \
               aws_region=${{ steps.aws_region.outputs.region }} \
               s3_bucket_name=${{ steps.s3_bucket_name.outputs.name }} \
               backend_public_ip=${{ steps.instance_ip.outputs.ip }} \
               frontend_repository_path=${{ github.workspace }}/frontend \
+              monitoring_ip=${{ steps.monitoring_instance_ip.outputs.ip }} \
             "
         working-directory: ./ansible

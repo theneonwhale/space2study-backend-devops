@@ -43,3 +43,13 @@ output "ssh_command" {
   description = "SSH command to connect to backend"
   value       = "ssh -i ~/.ssh/space2study-key ec2-user@${module.ec2_backend.backend_public_ip}"
 }
+
+output "monitoring_public_ip" {
+  description = "Monitoring server public IP"
+  value       = module.ec2_monitoring.monitoring_public_ip
+}
+
+output "monitoring_ssh_command" {
+  description = "SSH command to connect to monitoring server"
+  value       = "ssh -i ~/.ssh/${var.key_name}.pem ec2-user@${module.ec2_monitoring.monitoring_public_ip}"
+}

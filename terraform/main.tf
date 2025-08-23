@@ -51,12 +51,21 @@ module "s3_frontend" {
 }
 
 module "ec2_backend" {
-  source                = "./modules/ec2_backend"
-  project_name          = var.project_name
-  environment           = var.environment
-  aws_region            = var.aws_region
-  allowed_ip_addresses  = var.allowed_ip_addresses
-  app_secrets_arn       = module.app_secrets.app_secrets_arn
+  source                       = "./modules/ec2_backend"
+  project_name                 = var.project_name
+  environment                  = var.environment
+  aws_region                   = var.aws_region
+  allowed_ip_addresses         = var.allowed_ip_addresses
+  app_secrets_arn              = module.app_secrets.app_secrets_arn
+  key_name                     = var.key_name
+  monitoring_security_group_id = module.ec2_monitoring.monitoring_security_group_id
+}
+
+module "ec2_monitoring" {
+  source       = "./modules/ec2_monitoring"
+  project_name = var.project_name
+  environment  = var.environment
+  key_name     = var.key_name
 }
 
 module "app_secrets" {

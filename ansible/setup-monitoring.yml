@@ -1,0 +1,5 @@
+---
+- hosts: "{{ monitoring_hosts | default('monitoring') }}"
+  become: true
+  roles:
+    - monitoring

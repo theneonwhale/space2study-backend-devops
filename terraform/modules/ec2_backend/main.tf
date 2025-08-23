@@ -25,7 +25,7 @@ resource "aws_instance" "backend" {
   ami           = data.aws_ami.amazon_linux_2023.id # Amazon Linux 2023 AMI (us-east-1)
   instance_type = "t2.micro"              # Free tier
 
-  key_name               = "space2study-key"
+  key_name               = var.key_name
   vpc_security_group_ids = [aws_security_group.backend.id]
 
   root_block_device {
@@ -65,6 +65,15 @@ resource "aws_security_group" "backend" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
     description = "Backend API access"
+  }
+
+  # Ingress from monitoring instance
+  ingress {
+    from_port       = 3000
+    to_port         = 3000
+    protocol        = "tcp"
+    security_groups = [var.monitoring_security_group_id]
+    description     = "Allow Prometheus to scrape metrics"
   }
 
   # SSH access (restrict to your IP in production)

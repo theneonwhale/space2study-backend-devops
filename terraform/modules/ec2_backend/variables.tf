@@ -22,3 +22,13 @@ variable "app_secrets_arn" {
   description = "ARN of the application secrets in AWS Secrets Manager"
   type        = string
 }
+
+variable "key_name" {
+  description = "Name of the SSH key pair to use for the EC2 instance"
+  type        = string
+}
+
+variable "monitoring_security_group_id" {
+  description = "The ID of the monitoring instance's security group"
+  type        = string
+}

@@ -1,0 +1,71 @@
+---
+- name: Install Docker
+  become: yes
+  yum:
+    name: docker
+    state: present
+
+- name: Start Docker service
+  become: yes
+  service:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: Add ec2-user to docker group
+  become: yes
+  user:
+    name: ec2-user
+    groups: docker
+    append: yes
+
+- name: Install Docker Compose
+  become: yes
+  get_url:
+    url: https://github.com/docker/compose/releases/latest/download/docker-compose-Linux-x86_64
+    dest: /usr/local/bin/docker-compose
+    mode: '0755'
+
+- name: Create monitoring directories
+  become: yes
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: ec2-user
+    group: ec2-user
+    mode: '0755'
+  loop:
+    - /opt/monitoring
+    - /opt/monitoring/prometheus
+    - /opt/monitoring/grafana/provisioning/datasources
+    - /opt/monitoring/grafana/provisioning/dashboards
+    - /opt/monitoring/loki
+
+- name: Copy configuration files
+  become: yes
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: ec2-user
+    group: ec2-user
+    mode: '0644'
+  loop:
+    - { src: 'prometheus.yml', dest: '/opt/monitoring/prometheus/prometheus.yml' }
+    - { src: 'loki-config.yml', dest: '/opt/monitoring/loki/loki-config.yml' }
+    - { src: 'datasource.yml', dest: '/opt/monitoring/grafana/provisioning/datasources/datasource.yml' }
+    - { src: 'dashboard.json', dest: '/opt/monitoring/grafana/provisioning/dashboards/dashboard.json' }
+
+- name: Template Docker Compose file
+  become: yes
+  template:
+    src: docker-compose.yml.j2
+    dest: /opt/monitoring/docker-compose.yml
+    owner: ec2-user
+    group: ec2-user
+    mode: '0644'
+
+- name: Start monitoring stack
+  become: yes
+  command:
+    cmd: docker-compose up -d
+    chdir: /opt/monitoring
