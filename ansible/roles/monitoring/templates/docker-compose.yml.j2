@@ -33,6 +33,7 @@ services:
 
   loki:
     image: grafana/loki:2.7.0
+    user: root
     container_name: loki
     restart: unless-stopped
     volumes:
