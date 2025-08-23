@@ -41,6 +41,15 @@
     - /opt/monitoring/grafana/provisioning/dashboards
     - /opt/monitoring/loki
 
+- name: Force-remove old config files to ensure changes are applied
+  become: yes
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /opt/monitoring/loki/loki-config.yml
+    - /opt/monitoring/docker-compose.yml
+
 - name: Copy configuration files
   become: yes
   copy:
