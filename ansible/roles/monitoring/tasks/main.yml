@@ -53,6 +53,7 @@
     - { src: 'prometheus.yml', dest: '/opt/monitoring/prometheus/prometheus.yml' }
     - { src: 'loki-config.yml', dest: '/opt/monitoring/loki/loki-config.yml' }
     - { src: 'datasource.yml', dest: '/opt/monitoring/grafana/provisioning/datasources/datasource.yml' }
+    - { src: 'dashboard-provider.yml', dest: '/opt/monitoring/grafana/provisioning/dashboards/dashboard-provider.yml' }
     - { src: 'dashboard.json', dest: '/opt/monitoring/grafana/provisioning/dashboards/dashboard.json' }
 
 - name: Template Docker Compose file
