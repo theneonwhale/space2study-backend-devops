@@ -32,6 +32,7 @@ storage_config:
     cache_location: /tmp/loki/boltdb-shipper-cache
     cache_ttl: 24h
     shared_store: filesystem
+    wal_dir: /tmp/loki/wal
   filesystem:
     directory: /tmp/loki/chunks
 
