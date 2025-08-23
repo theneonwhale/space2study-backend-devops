@@ -5,6 +5,12 @@
     url: "https://github.com/grafana/loki/releases/download/v2.7.0/promtail-linux-amd64.zip"
     dest: /tmp/promtail-linux-amd64.zip
 
+- name: Install unzip package
+  become: yes
+  yum:
+    name: unzip
+    state: present
+
 - name: Unarchive Promtail
   become: yes
   unarchive:
