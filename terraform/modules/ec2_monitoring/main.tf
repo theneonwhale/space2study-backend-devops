@@ -34,6 +34,8 @@ resource "aws_instance" "monitoring" {
     delete_on_termination = true
   }
 
+  iam_instance_profile = aws_iam_instance_profile.monitoring_profile.name
+
   tags = {
     Name        = "${var.project_name}-monitoring"
     Environment = var.environment
@@ -49,6 +51,47 @@ resource "aws_eip" "monitoring" {
     Name        = "${var.project_name}-monitoring-eip"
     Environment = var.environment
   }
+}
+
+# IAM role for EC2 to discover other instances
+resource "aws_iam_role" "monitoring_role" {
+  name = "${var.project_name}-monitoring-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Principal = {
+          Service = "ec2.amazonaws.com"
+        }
+      }
+    ]
+  })
+}
+
+# IAM policy for EC2 discovery
+resource "aws_iam_role_policy" "discovery_policy" {
+  name = "${var.project_name}-discovery-policy"
+  role = aws_iam_role.monitoring_role.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = "ec2:DescribeInstances"
+        Resource = "*"
+      }
+    ]
+  })
+}
+
+# Instance profile
+resource "aws_iam_instance_profile" "monitoring_profile" {
+  name = "${var.project_name}-monitoring-profile"
+  role = aws_iam_role.monitoring_role.name
 }
 
 # Security group for monitoring
