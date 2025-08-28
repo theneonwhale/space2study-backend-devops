@@ -76,6 +76,15 @@ resource "aws_security_group" "backend" {
     description     = "Allow Prometheus to scrape metrics"
   }
 
+  # Ingress for Node Exporter
+  ingress {
+    from_port       = 9100
+    to_port         = 9100
+    protocol        = "tcp"
+    security_groups = [var.monitoring_security_group_id]
+    description     = "Allow Node Exporter to be scraped by Prometheus"
+  }
+
   # SSH access (restrict to your IP in production)
   ingress {
     from_port   = 22
